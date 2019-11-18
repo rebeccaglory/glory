@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Simple Ecommerce</title>
+    <style>
+        table, tr, td{
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+        #p{
+        color: #ff00ff;
+        font-size: 20px;
+        font-weight: bold;
+        font-family:Rockwell, Calibri, Monospace;
+        font-style : oblique; 
+        }
+        #y{
+		border: 3px solid #cecece;
+		border-radius: 5px;
+		padding: 3px 10px;
+		box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+		color: white;
+		background-color: red;
+        }
+        #z{
+        color : royalblue;
+        font-size: 10px;
+        font-weight: bold;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-style : oblique; 
+        }
+        #fontcart{
+        color :teal;
+        font-size: 50px;
+        font-weight: bold;
+        font-family :-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-style : oblique; 
+        }
+
+    </style>
+</head>
+<body  background = 'https://ae01.alicdn.com/kf/HTB1b5EFXx2rK1RkSnhJq6ykdpXat/HUAYI-Photography-Backdrop-Table-Cloth-Background-Marble-Decoration-Backdrop-for-Photo-Studio-XT-7255.jpg'>
+    <center>
+            <br><br><br><br><br><br><br>
+            <h1><b>Madding</b></h1> 
+              <br>
+              Username : <input type="text" name="nameuser" id="username" placeholder="Masukkan Username">
+              <br><br>
+              Password : <input type="password" name="passworduser" id="passworduser" placeholder="Masukkan Password">
+              <br><br>
+              <input type="button" value="Log In" onclick="login()">
+        <!-- <img src="C:\Users\win-10\Desktop\Mensana Blue on White copy.PNG" alt="logo"> -->
+        <br><br>
+        <table>
+            <thead>
+                <tr>
+                    <td>No.</td>
+                    <td>Kategori</td>
+                    <td>Hari</td>
+                    <td>Poster</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody id="menu">
+            </tbody>
+
+        </h1>
+    </center>
+
+
+
+
+    <script>
+        class Product{
+            constructor(kategori, hari, image){
+                this.kategori = kategori,
+                this.hari = hari,
+                this.image = image
+            }
+        }
+        menu = []
+        var menu = [
+            new Product('Estafet','Senin', 'http://zakapedia.com/wp-content/uploads/2019/07/Teknik-Lari-Estafet-680x350.png'),
+        ]
+
+        var user = [
+        {
+            username: 'rebecca',
+            password: 'asd123',
+            role: 'user'
+        },
+        {
+            username: 'admin',
+            password: 'admin',
+            role: 'admin'
+        }
+    ]
+    function login(username,password){
+        for(var i = 0 ; i<user.length; i++){
+            if(username === user[i].username && password === user[i].password){
+                return user[i].role
+            }
+        }
+        return false
+    } 
+        var cart = []
+        function printMenu(){
+            var output = ''            
+            for(var i = 0 ; i<menu.length; i++){
+                output += `
+                    <tr>
+                        <td>${i+1}</td>
+                        <td>${menu[i].kategori}</td>
+                        <td>${menu[i].hari}</td>
+                        <td><img src="${menu[i].image}" alt='foto hp' width="300px" ></td>
+                        <td>
+                            <input id=z type="button" value="Edit" onclick="editbox(${i})">
+                            <input id=z type = "button" id="blah" value = "delete" onclick ="deletemenu($${i})">
+                        </td>
+                        
+                    </tr>`
+            }
+            document.getElementById("menu").innerHTML = output + `<tr>
+                <td><i+1></td>
+                <td><input type="text"id='nama'></td>
+                <td><input type="text" id='hari'></td>
+                <td><input type="text"id='image'></td>
+                <td>
+                    <input id = z  type="button" value="Tambah Kegiatan" onclick= tambahProduk()>
+                    
+                    </td>
+                </tr>`
+            
+        }
+        function tambahProduk(nama, images , harga){
+            var productbaru = new Product(nama, image, harga)
+            var a = document.getElementById('nama').value
+            var b = document.getElementById('hari').value
+            var c = document.getElementById('image').value
+             menu.push(new Product(a,b,c))
+        printMenu()
+        }
+        function deletemenu(index){
+            menu.splice(index, 1)
+            printmenu()
+        }
+        function editbox(x){
+            var output = ''
+            output += `
+            <tr id=${x}>
+                    <td>${x+1}</td>
+                    <td><input type="text" id="namabox"></td>
+                    <td><input type="text" id="imagebox"></td>
+                    <td><input type="number" id="hargabox"></td>
+                    <td>
+                        <input type="button" id="klikan" value="Confirm" onclick="edit(${x})">
+    
+                    </td>
+                </tr>
+                `
+                document.getElementById("menu").innerHTML = output;
+        
+        }
+        function edit(x){
+            var editnama = document.getElementById('namabox').value; 
+            if(editnama == ''){
+                menu[x].nama = menu[x].nama
+            }else{
+                menu[x].nama=editnama
+            }
+
+            var editimage = document.getElementById('imagebox').value; 
+            if(editimage == ''){
+                menu[x].image = menu[x].image
+            }else{
+                menu[x].image =editimage
+            }
+
+            var editharga = document.getElementById('hargabox').value;
+            if(editharga == ''){
+                menu[x].harga = menu[x].harga
+            }else{
+                menu[x].harga=editharga
+            }
+            printMenu()
+        }
+        printMenu()
+        
+    </script>
+
+</body>
+</html>
